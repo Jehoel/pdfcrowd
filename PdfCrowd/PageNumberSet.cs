@@ -125,6 +125,7 @@ namespace PdfCrowd
 
 		private readonly HashSet<Int32> set = new HashSet<Int32>();
 
+		/// <summary>Adds the specified page number to this instance. If a number already exists it won't be added again (and returns false, otherwise returns true if added successfully).</summary>
 		public void Add(Int32 pageNumber)
 		{
 			if( !this.set.Contains( pageNumber ) )
@@ -133,11 +134,13 @@ namespace PdfCrowd
 			}
 		}
 
+		/// <summary>Indicates if the specified number exists in this set.</summary>
 		public Boolean Contains(Int32 pageNumber)
 		{
 			return this.set.Contains( pageNumber );
 		}
 
+		/// <summary>Removes the specified number from this set. Returns true if the removal was successful because the <paramref name="pageNumber" /> exists in this set.</summary>
 		public void Remove(Int32 pageNumber)
 		{
 			this.set.Remove( pageNumber );
@@ -157,6 +160,7 @@ namespace PdfCrowd
 
 		private readonly SortedSet<Int32> set = new SortedSet<Int32>( _comparer );
 
+		/// <summary>Adds the specified page number to this instance. If a number already exists it won't be added again (and returns false, otherwise returns true if added successfully).</summary>
 		public void Add(Int32 pageNumber)
 		{
 			if( !this.set.Contains( pageNumber ) )
@@ -165,11 +169,13 @@ namespace PdfCrowd
 			}
 		}
 
+		/// <summary>Indicates if the specified number exists in this set.</summary>
 		public Boolean Contains(Int32 pageNumber)
 		{
 			return this.set.Contains( pageNumber );
 		}
 
+		/// <summary>Removes the specified number from this set. Returns true if the removal was successful because the <paramref name="pageNumber" /> exists in this set.</summary>
 		public void Remove(Int32 pageNumber)
 		{
 			this.set.Remove( pageNumber );
