@@ -1,0 +1,219 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Globalization" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".partial.cs" #>
+<#
+
+List<PGroup> groups = new List<PGroup>();
+
+////
+
+PGroup main = new PGroup("Main");
+main.Params = new P[] {
+	
+	new P( "username", "String", "UserName", "Your username at Pdfcrowd." ),
+	new P( "key", "String", "ApiKey", "API key. Can be found on your account page. Note that the key is regenerated when you change your password." )
+};
+
+groups.Add( main );
+
+////
+
+PGroup pageSetup = new PGroup("Page Setup");
+pageSetup.Params = new P[] {
+	
+	new P( "width", "Length", null, "PDF page width" ),
+	new P( "height", "Length", null, "PDF page height" ),
+	new P( "margin_top", "Length", null, "Top PDF page margin" ),
+	new P( "margin_right", "Length", null, "Right PDF page margin" ),
+	new P( "margin_bottom", "Length", null, "Bottom PDF page margin" ),
+	new P( "margin_left", "Length", null, "Left PDF page margin" )
+};
+
+groups.Add( pageSetup );
+
+////
+
+String expandedVariablesDesc = " The following variables are expanded: <c>%u</c> - URL to convert. <c>%p</c> - The current page number. <c>%n</c> - Total number of pages.";
+
+PGroup headerAndFooter = new PGroup("Header and Footer");
+headerAndFooter.Params = new P[] {
+	
+	new P( "footer_html", "String", null, "Places the specified HTML code inside the page footer." + expandedVariablesDesc ),
+	new P( "footer_url", "Uri", null, "Loads HTML code from the specified URL and places it inside the page footer." + expandedVariablesDesc ),
+	new P( "header_html", "String", null, "Places the specified HTML code inside the page header." + expandedVariablesDesc ),
+	new P( "header_url", "Uri", null, "Loads HTML code from the specified URL and places it inside the page header. " + expandedVariablesDesc ),
+	new P( "page_numbering_offset", "Int32", null, "An offset between physical and logical page numbers. The default value is 0." )
+};
+
+groups.Add( headerAndFooter );
+
+////
+
+PGroup htmlOptions = new PGroup("HTML Options");
+htmlOptions.Params = new P[] {
+	
+	new P( "no_images", "Boolean", "DisableImages", "Do not print images." ),
+	new P( "no_backgrounds", "Boolean", "DisableBackgrounds", "Do not print backgrounds." ),
+	new P( "html_zoom", "Boolean", null, "HTML zoom in percents. It determines the precision used for rendering of the HTML content. Despite its name, it does not zoom the HTML content. Higher values can improve glyph positioning and can lead to overall better visual appearance of the generated PDF .The default value is 100." ),
+	new P( "no_javascript", "Boolean", "DisableJavaScript", "Do not run JavaScript in web pages." ),
+	new P( "no_hyperlinks", "Boolean", "DisableHyperlinks", "Do not create hyperlinks in the PDF." ),
+	new P( "text_encoding", "Boolean", null, "The text encoding to use when none is specified in the web page. The default value is utf-8." ),
+	new P( "use_print_media", "Boolean", "UseCssPrintMediaType", "Use the print CSS media type (if available)." ),
+};
+
+groups.Add( htmlOptions );
+
+////
+
+PGroup pdfOptions = new PGroup("PDF Options");
+pdfOptions.Params = new P[] {
+	
+	new P( "encrypted", "Boolean", "Encrypt", "Encrypts the PDF. This prevents search engines from indexing the document." ),
+	new P( "author", "String", null, "Sets the PDF author field." ),
+	new P( "user_pwd", "String", "UserPassword", "Protects the PDF with an user password. When a PDF has an user password, it must be supplied in order to view the document and to perform operations allowed by the access permissions. At most 32 characters." ),
+	new P( "owner_pwd", "String", "OwnerPassword", "Protects the PDF with an owner password. Supplying an owner password grants unlimited access to the PDF including changing the passwords and access permissions. At most 32 characters." ),
+	new P( "no_print", "Boolean", "DisallowPrinting", "Do not allow to print the generated PDF." ),
+	new P( "no_modify", "Boolean", "DisallowModifying", "Do not allow to modify the PDF." ),
+	new P( "no_copy", "Boolean", "DisallowCopyingContents", "Do not allow to extract text and graphics from the PDF." ),
+	new P( "page_layout", "PdfPageLayout", null, "Specifies the initial page layout when the PDF is opened in a viewer." ),
+	new P( "initial_pdf_zoom_type", "PdfZoomType", null, "Specifies the initial page zoom type when the PDF is opened in a viewer." ),
+	new P( "initial_pdf_zoom", "Decimal", null, "Specifies the initial page zoom when the PDF is opened in a viewer. Defaults to 100%." ),
+	new P( "page_mode", "PdfPageMode", null, "Specifies the appearance of the PDF when opened." ),
+	new P( "max_pages", "Int32", null, "Prints at most the specified number of pages." ),
+	new P( "pdf_name", "String", "PdfFileName", "The file name of the created PDF (max 180 chars). If not specified then the name is auto-generated." ),
+	new P( "pdf_scaling_factor", "Decimal", null, "The scaling factor used to convert between HTML and PDF. The default value is 1.333 (4/3) which makes the PDF content up to 1/3 larger than HTML." ),
+	new P( "page_background_color", "String", null, "The page background color in RRGGBB hexadecimal format." ),
+	new P( "transparent_background", "String", null, "Do not print the body background." ),
+	
+};
+
+groups.Add( pdfOptions );
+
+////
+
+PGroup watermarkOptions = new PGroup("Watermark");
+watermarkOptions.Params = new P[] {
+	
+	new P( "watermark_url", "Uri", null, "A public absolute URL of the watermark image (must start either with http:// or https://). The supported formats are PNG and JPEG." ),
+	new P( "watermark_offset_x", "Length", null, "The horizontal watermark offset. The default value is 0." ),
+	new P( "watermark_offset_y", "Length", null, "The vertical watermark offset. The default value is 0." ),
+	new P( "watermark_rotation", "Decimal", null, "The watermark rotation in degrees." ),
+	new P( "watermark_in_background", "Boolean", null, "When set then the watermark is be placed in the background. By default, the watermark is placed in the foreground." )
+	
+};
+
+groups.Add( watermarkOptions );
+
+////
+
+PGroup miscOptions = new PGroup("Miscellaneous");
+miscOptions.Params = new P[] {
+	
+	new P( "fail_on_non200", "Boolean", null, "The conversion request will fail if the converted URL returns 4xx or 5xx HTTP status code." ),
+	new P( "content_disposition", "String", null, "The value of the Content-Disposition HTTP header sent in the response. Allowed values: <c>inline</c>: The browser will open the PDF in the browser window. <c>attachment</c>: Forces the browser to pop up a Save As dialog. This is the default value." ),
+	new P( "pdfcrowd_logo", "Boolean", "PdfCrowdLogo", "Insert the Pdfcrowd logo to the footer." ),
+	
+};
+
+groups.Add( miscOptions );
+
+
+#>
+using System;
+using System.Globalization;
+using System.CodeDom.Compiler;
+
+namespace PdfCrowd
+{
+	public partial class PdfCrowdOptions
+	{
+<# foreach(PGroup group in groups) { #>
+	#region <#= group.Name #>
+<#	foreach(P p in group.Params) { #>
+		
+<#		if( p.Documentation != null ) {#>
+		/// <summary><#= p.Documentation #></summary>
+<# } // endif #>
+		public <#= p.Type #> <#= p.DotNetName #> { get; set; }
+<#	} #>
+
+	#endregion
+
+<# } //foreach #>
+		
+		[GeneratedCode("PdfCrowdOptions.tt", "1.0")]
+		private void ForEachValueImpl(OnProperty callback)
+		{
+<# foreach(PGroup group in groups) { #>
+<#	foreach(P p in group.Params) { #>
+			if( this.<#= p.DotNetName #> != default(<#= p.Type #>) )
+			{
+<#		if( p.Type == "String" ) { #>
+				callback( "<#= p.Key #>", this.<#= p.DotNetName #>, true );
+<#		} else if( p.Type == "Uri" || p.Type == "Length" ) { #>
+				callback( "<#= p.Key #>", this.<#= p.DotNetName #>.ToString(), true );
+<#		} else if( p.Type.StartsWith("Pdf") /* Assuming it's an enum */ ) { #>
+				callback( "<#= p.Key #>", ((Int32)this.<#= p.DotNetName #>).ToString( CultureInfo.InvariantCulture ), false );
+<#		} else if( p.Type == "Boolean" ) { #>
+				callback( "<#= p.Key #>", "true", false );
+<#		} else { #>
+				callback( "<#= p.Key #>", this.<#= p.DotNetName #>.ToString( CultureInfo.InvariantCulture ), false );
+<#		} #>
+			}
+
+<#	} #>
+<# } #>
+		}
+
+		private void CopyPropertiesToImpl(PdfCrowdOptions other)
+		{
+<# foreach(PGroup group in groups) { #>
+<#	foreach(P p in group.Params) { #>
+<#		if( p.Type == "Length" ) { #>
+			other.<#= p.DotNetName #> = ( this.<#= p.DotNetName #> != null ) ? new <#= p.Type #>( this.<#= p.DotNetName #> ) : null;
+<#		} else { #>
+			other.<#= p.DotNetName #> = this.<#= p.DotNetName #>;
+<#		} #>
+<#	} #>
+<# } #>
+		}
+	}
+}
+
+<#+
+
+class PGroup {
+	
+	public readonly String Name;
+	public P[] Params;
+
+	public PGroup(String name) {
+		this.Name = name;
+	}
+}
+
+class P {
+	public readonly String Key;
+	public readonly String Type;
+	public readonly String DotNetName;
+	public readonly String Documentation;
+
+	public P(String key, String type, String dotNetName, String documentation)
+	{
+		this.Key = key;
+		this.Type = type;
+		this.DotNetName = dotNetName ?? GetDotNetName( key );
+		this.Documentation = documentation;
+	}
+
+	public static String GetDotNetName(String key) {
+		
+		return String.Concat( key.Split('_').Select( w => CultureInfo.InvariantCulture.TextInfo.ToTitleCase( w ).Replace("Url", "Uri") ) );
+	}
+}
+
+#>
