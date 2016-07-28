@@ -69,7 +69,7 @@ namespace PdfCrowd
 
 		/// <summary>Returns a localized (human-readable) message for the given error code. The Exception.Message property is set to the string returned from this method automatically. Class library consumers should never need to call this method.</summary>
 		/// <exception cref="InvalidEnumArgumentException">When the error code value is not a defined enumeration value.</exception>
-		public static String LocalizeErrorCode(PdfCrowdErrorCode code)
+		internal static String LocalizeErrorCode(PdfCrowdErrorCode code)
 		{
 			switch(code)
 			{

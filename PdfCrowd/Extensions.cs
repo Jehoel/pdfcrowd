@@ -14,7 +14,7 @@ namespace System.Runtime.CompilerServices
 
 namespace PdfCrowd
 {
-#if DOTNET20 || DOTNET35
+#if !DOTNET45 // CopyTo is in .NET 4.0, so you might need to add "&& !DOTNET40" check if we add support for .NET 4.0
 
 	internal static class Extensions
 	{

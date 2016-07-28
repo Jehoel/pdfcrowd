@@ -34,6 +34,20 @@ namespace PdfCrowd.Tests
 			Assert.IsTrue( tokens >= 0 );
 		}
 
+#if NEVER
+		[TestMethod]
+		[ExpectedPdfCrowdException(PdfCrowdErrorCode.InsufficientCredits)] // TODO: I'm waiting before I have an account with a low token balance with which to test this.
+		public void TestConvertFromUri_OutOfTokens()
+		{
+			PdfCrowdOptions options = CreateOptions();
+
+			using( PdfCrowdPdfResponse pdf = PdfCrowdClient.ConvertFromUri( options, new Uri( "https://www.google.com" ) ) )
+			{
+				Assert.IsFalse( pdf.IsPdf );
+			}
+		}
+#endif
+
 		[TestMethod]
 		public void TestConvertFromUri_Google()
 		{
@@ -162,6 +176,7 @@ namespace PdfCrowd.Tests
 		// Getting a "Request entity too large" response is difficult - the service accepts uploads larger than the docs say, and if it's too large it simply closes the TCP connection.
 		// I don't want to write code to handle TCP connection issues (which HttpWebRequest does anyway) because the cause for that is legion. It's fine the way it is.
 
+		[Ignore] // Skip this test by default because it takes >30 seconds to run, depending on your Internet connection speed.
 		/// <summary>Sends a 50MB request with HTML located at the 25MB location.</summary>
 		[TestMethod]
 		[ExpectedPdfCrowdException(PdfCrowdErrorCode.SourceDataTooLarge)]
@@ -190,6 +205,7 @@ namespace PdfCrowd.Tests
 			}
 		}
 
+		[Ignore] // Skip this test by default because it takes >30 seconds to run, depending on your Internet connection speed.
 		/// <summary>Sends a 50MB request with HTML located at the start of the stream.</summary>
 		[TestMethod]
 		[ExpectedPdfCrowdException(PdfCrowdErrorCode.UnhandledWebException)]
