@@ -24,14 +24,13 @@ namespace PdfCrowd
 		/// <summary>Indicates if all required properties are present and valid.</summary>
 		public Boolean Validate()
 		{
-#if DOTNET20
+#if DOTNET45
 			if( String.IsNullOrEmpty( this.UserName ) ) return false;
 			if( String.IsNullOrEmpty( this.ApiKey   ) ) return false;
-#elif DOTNET40
-			if( String.IsNullOrWhiteSpace( this.UserName ) ) return false;
-			if( String.IsNullOrWhiteSpace( this.ApiKey   ) ) return false;
+#else
+			if( String.IsNullOrEmpty( this.UserName ) ) return false;
+			if( String.IsNullOrEmpty( this.ApiKey   ) ) return false;
 #endif
-
 			return true;
 		}
 

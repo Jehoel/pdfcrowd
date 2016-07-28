@@ -84,8 +84,73 @@ namespace PdfCrowd
 			foreach(Int32 n in numbers) this.Add( n );
 		}
 
-#if DOTNET20
+#if DOTNET45
 
+		private readonly SortedSet<Int32> set = new SortedSet<Int32>( _comparer );
+
+		/// <summary>Adds the specified page number to this instance. If a number already exists it won't be added again (and returns false, otherwise returns true if added successfully).</summary>
+		public void Add(Int32 pageNumber)
+		{
+			if( !this.set.Contains( pageNumber ) )
+			{
+				this.set.Add( pageNumber );
+			}
+		}
+
+		/// <summary>Indicates if the specified number exists in this set.</summary>
+		public Boolean Contains(Int32 pageNumber)
+		{
+			return this.set.Contains( pageNumber );
+		}
+
+		/// <summary>Removes the specified number from this set. Returns true if the removal was successful because the <paramref name="pageNumber" /> exists in this set.</summary>
+		public void Remove(Int32 pageNumber)
+		{
+			this.set.Remove( pageNumber );
+		}
+
+		private IEnumerable<Int32> GetSortedPageNumbers()
+		{
+			return this.set;
+		}
+
+#elif DOTNET35
+		
+		private readonly HashSet<Int32> set = new HashSet<Int32>();
+
+		/// <summary>Adds the specified page number to this instance. If a number already exists it won't be added again (and returns false, otherwise returns true if added successfully).</summary>
+		public void Add(Int32 pageNumber)
+		{
+			if( !this.set.Contains( pageNumber ) )
+			{
+				this.set.Add( pageNumber );
+			}
+		}
+
+		/// <summary>Indicates if the specified number exists in this set.</summary>
+		public Boolean Contains(Int32 pageNumber)
+		{
+			return this.set.Contains( pageNumber );
+		}
+
+		/// <summary>Removes the specified number from this set. Returns true if the removal was successful because the <paramref name="pageNumber" /> exists in this set.</summary>
+		public void Remove(Int32 pageNumber)
+		{
+			this.set.Remove( pageNumber );
+		}
+
+		private IEnumerable<Int32> GetSortedPageNumbers()
+		{
+			Int32[] pageNumbers = new Int32[ this.set.Count ];
+			this.set.CopyTo( pageNumbers, 0 );
+
+			Array.Sort( pageNumbers, _comparer );
+			
+			return pageNumbers;
+		}
+
+#elif DOTNET20
+		
 		private readonly Dictionary<Int32,Byte> dict = new Dictionary<Int32,Byte>();
 
 		/// <summary>Adds the specified page number to this instance. If a number already exists it won't be added again (and returns false, otherwise returns true if added successfully).</summary>
@@ -121,70 +186,9 @@ namespace PdfCrowd
 			return pageNumbers;
 		}
 
-#elif DOTNET35
+#else
 
-		private readonly HashSet<Int32> set = new HashSet<Int32>();
-
-		/// <summary>Adds the specified page number to this instance. If a number already exists it won't be added again (and returns false, otherwise returns true if added successfully).</summary>
-		public void Add(Int32 pageNumber)
-		{
-			if( !this.set.Contains( pageNumber ) )
-			{
-				this.set.Add( pageNumber );
-			}
-		}
-
-		/// <summary>Indicates if the specified number exists in this set.</summary>
-		public Boolean Contains(Int32 pageNumber)
-		{
-			return this.set.Contains( pageNumber );
-		}
-
-		/// <summary>Removes the specified number from this set. Returns true if the removal was successful because the <paramref name="pageNumber" /> exists in this set.</summary>
-		public void Remove(Int32 pageNumber)
-		{
-			this.set.Remove( pageNumber );
-		}
-
-		private IEnumerable<Int32> GetSortedPageNumbers()
-		{
-			Int32[] pageNumbers = new Int32[ this.set.Count ];
-			this.set.CopyTo( pageNumbers, 0 );
-
-			Array.Sort( pageNumbers, _comparer );
-			
-			return pageNumbers;
-		}
-
-#elif DOTNET40
-
-		private readonly SortedSet<Int32> set = new SortedSet<Int32>( _comparer );
-
-		/// <summary>Adds the specified page number to this instance. If a number already exists it won't be added again (and returns false, otherwise returns true if added successfully).</summary>
-		public void Add(Int32 pageNumber)
-		{
-			if( !this.set.Contains( pageNumber ) )
-			{
-				this.set.Add( pageNumber );
-			}
-		}
-
-		/// <summary>Indicates if the specified number exists in this set.</summary>
-		public Boolean Contains(Int32 pageNumber)
-		{
-			return this.set.Contains( pageNumber );
-		}
-
-		/// <summary>Removes the specified number from this set. Returns true if the removal was successful because the <paramref name="pageNumber" /> exists in this set.</summary>
-		public void Remove(Int32 pageNumber)
-		{
-			this.set.Remove( pageNumber );
-		}
-
-		private IEnumerable<Int32> GetSortedPageNumbers()
-		{
-			return this.set;
-		}
+#error No DOTNETxx symbol defined
 
 #endif
 	}
