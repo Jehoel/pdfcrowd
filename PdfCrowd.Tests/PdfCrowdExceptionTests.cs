@@ -17,6 +17,8 @@ namespace PdfCrowd.Tests
 				String message = PdfCrowdException.LocalizeErrorCode( code );
 				Assert.IsNotNull( message );
 				Assert.IsTrue( message.Length > 0 );
+
+				Assert.AreEqual( -1, message.IndexOf('<') ); // Ensure there are no XML documentation comments in the resource message text (because the Resources file was populated by copying from the XML docs).
 			}
 
 			Assert.IsTrue( true ); // reached the end

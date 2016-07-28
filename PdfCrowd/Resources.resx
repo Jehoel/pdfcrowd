@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PdfCrowdClient_InvalidFileContentTypeArgument" xml:space="preserve">
     <value>No MIME content-type was specified and the content-type could not be derived from the fileName extension.</value>
@@ -126,11 +126,17 @@
   <data name="PdfCrowdClient_InvalidPdfCrowdOptions" xml:space="preserve">
     <value>The PdfCrowdOptions object provided is invalid or incomplete.</value>
   </data>
+  <data name="PdfCrowdErrorCode_AuthenticationError" xml:space="preserve">
+    <value>The service rejected the provided username and API key. The server response message is in the Details property.</value>
+  </data>
   <data name="PdfCrowdErrorCode_CouldNotParseGetRemainingTokens" xml:space="preserve">
     <value>The response from GetRemainingTokens could not be parsed as an integer value. Raw string value is in the Exception.Details property.</value>
   </data>
+  <data name="PdfCrowdErrorCode_PdfGenerationFailed" xml:space="preserve">
+    <value>The PDF generation failed for a reason other than a timeout. See the Details property for the respose content.</value>
+  </data>
   <data name="PdfCrowdErrorCode_PdfGenerationTimeout" xml:space="preserve">
-    <value>The PdfCrowd service took more than 40 seconds to generate the PDF so the job was aborted.</value>
+    <value>The PdfCrowd service took more than 40 seconds to generate the PDF or the generated PDF is larger than 100MiB. so the job was aborted.</value>
   </data>
   <data name="PdfCrowdErrorCode_RateLimited" xml:space="preserve">
     <value>The PdfCrowd service returned HTTP 503 indicating you have made too many requests in a small time period (i.e. you have been rate-limited).</value>
@@ -140,6 +146,12 @@
   </data>
   <data name="PdfCrowdErrorCode_SourceDataTooLarge" xml:space="preserve">
     <value>The size of the uploaded data exceeded 20MiB and the server returned HTTP 413 "Request entity too large".</value>
+  </data>
+  <data name="PdfCrowdErrorCode_UnhandledBadRequest" xml:space="preserve">
+    <value>The service returned HTTP 400 indicating a bad request, but this PdfCrowd client library doesn't know why.</value>
+  </data>
+  <data name="PdfCrowdErrorCode_UnhandledServiceError" xml:space="preserve">
+    <value>The service returned an error code which is not documented. See the Details property for the respose content.</value>
   </data>
   <data name="PdfCrowdErrorCode_UnhandledWebException" xml:space="preserve">
     <value>A WebException was raised by the internal HttpWebRequest which was unexpected and so unhandled. See the InnerException property for details.</value>

@@ -88,6 +88,15 @@ namespace PdfCrowd {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The service rejected the provided username and API key. The server response message is in the Details property..
+        /// </summary>
+        internal static string PdfCrowdErrorCode_AuthenticationError {
+            get {
+                return ResourceManager.GetString("PdfCrowdErrorCode_AuthenticationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The response from GetRemainingTokens could not be parsed as an integer value. Raw string value is in the Exception.Details property..
         /// </summary>
         internal static string PdfCrowdErrorCode_CouldNotParseGetRemainingTokens {
@@ -97,7 +106,16 @@ namespace PdfCrowd {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The PdfCrowd service took more than 40 seconds to generate the PDF so the job was aborted..
+        ///   Looks up a localized string similar to The PDF generation failed for a reason other than a timeout. See the Details property for the respose content..
+        /// </summary>
+        internal static string PdfCrowdErrorCode_PdfGenerationFailed {
+            get {
+                return ResourceManager.GetString("PdfCrowdErrorCode_PdfGenerationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The PdfCrowd service took more than 40 seconds to generate the PDF or the generated PDF is larger than 100MiB. so the job was aborted..
         /// </summary>
         internal static string PdfCrowdErrorCode_PdfGenerationTimeout {
             get {
@@ -129,6 +147,24 @@ namespace PdfCrowd {
         internal static string PdfCrowdErrorCode_SourceDataTooLarge {
             get {
                 return ResourceManager.GetString("PdfCrowdErrorCode_SourceDataTooLarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The service returned HTTP 400 indicating a bad request, but this PdfCrowd client library doesn&apos;t know why..
+        /// </summary>
+        internal static string PdfCrowdErrorCode_UnhandledBadRequest {
+            get {
+                return ResourceManager.GetString("PdfCrowdErrorCode_UnhandledBadRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The service returned an error code which is not documented. See the Details property for the respose content..
+        /// </summary>
+        internal static string PdfCrowdErrorCode_UnhandledServiceError {
+            get {
+                return ResourceManager.GetString("PdfCrowdErrorCode_UnhandledServiceError", resourceCulture);
             }
         }
         

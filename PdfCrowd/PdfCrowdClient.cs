@@ -247,13 +247,25 @@ namespace PdfCrowd
 					Int32 statusCode = (Int32)response.StatusCode;
 					switch( statusCode )
 					{
+						case 400:
+
+							if( responseContent == "Authentication failed. Please supply your username and your API key." )
+							{
+								throw new PdfCrowdException( PdfCrowdErrorCode.AuthenticationError, wex, responseContent );
+							}
+
+							throw new PdfCrowdException( PdfCrowdErrorCode.UnhandledBadRequest, wex, responseContent );
+
+						case 413:
+							throw new PdfCrowdException( PdfCrowdErrorCode.SourceDataTooLarge, wex, responseContent );
+						case 502:
+							throw new PdfCrowdException( PdfCrowdErrorCode.PdfGenerationTimeout, wex, responseContent );
 						case 503:
 							throw new PdfCrowdException( PdfCrowdErrorCode.RateLimited, wex, responseContent );
 						case 510:
-						case 502:
-							throw new PdfCrowdException( PdfCrowdErrorCode.PdfGenerationTimeout, wex, responseContent );
-						case 413:
-							throw new PdfCrowdException( PdfCrowdErrorCode.SourceDataTooLarge, wex, responseContent );
+							throw new PdfCrowdException( PdfCrowdErrorCode.PdfGenerationFailed, wex, responseContent );
+						default:
+							throw new PdfCrowdException( PdfCrowdErrorCode.UnhandledServiceError, wex, responseContent );
 					}
 				}
 
