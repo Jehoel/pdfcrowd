@@ -1,6 +1,10 @@
 # pdfcrowd
 An independently developed .NET PdfCrowd.com client
 
+## License
+
+MIT License
+
 ## Background
 
 PdfCrowd.com has their own client ( https://github.com/pdfcrowd/pdfcrowd-dotnet ) however I'm not happy with the client because it doesn't conform with the Microsoft C# and .NET coding conventions, as well as not being stylistically idiomatic C#.
